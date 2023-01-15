@@ -1,3 +1,5 @@
+repeat task.wait() until game:IsLoaded()
+
 if not getgenv().executedHi then
 	getgenv().executedHi = true
 else
@@ -6,6 +8,17 @@ end
 
 local songName
 local debounce = false
+
+if isfile and writefile and typeof(isfile) == 'function' and typeof(writefile) == 'function' then
+	if not isfile('DiscordPromptedLyrics.txt') then
+		writefile('DiscordPromptedLyrics.txt', game:GetService('HttpService'):JSONEncode('hi'))
+		local Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Discord%20Inviter/Source.lua"))()
+		Module.Prompt({
+			invite = "https://discord.gg/fNeggqVMZs",
+			name = "CF Community",
+		})
+	end
+end
 
 local function sendMessage(text)
 	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
