@@ -12,6 +12,7 @@ local function sendMessage(text)
 end
 
 local notif = loadstring(game:HttpGet("https://raw.githubusercontent.com/lobox920/Notification-Library/main/Library.lua"))()
+local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
 
 function notifynotify(message, duration)
 	notif:SendNotification("Success", message, duration)
@@ -32,7 +33,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local msg = msgdata.Message:gsub('>lyrics ', ''):gsub('"', '')
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	songName = string.gsub(msg, " ", "")
-	local response = syn.request({
+	local response = httprequest({
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
 	})
