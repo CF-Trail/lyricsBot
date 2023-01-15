@@ -1,7 +1,7 @@
 if not getgenv().executedHi then
 	getgenv().executedHi = true
 else
-	return notifyerror('Already executed',5)
+	return
 end
 
 local songName
