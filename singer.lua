@@ -52,10 +52,10 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 		return
 	end
 	local speaker = msgdata.FromSpeaker
-	local msg = msgdata.Message:gsub('>lyrics ', ''):gsub('"', '')
+	local msg = msgdata.Message:gsub('>lyrics ', ''):gsub('"', ''):gsub(' by ','/')
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	plr = game:GetService('Players')[speaker].Name
-	songName = string.gsub(msg, " ", "")
+	songName = string.gsub(msg, " ", ""):lower()
 	local response = syn.request({
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
@@ -65,7 +65,6 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local lyricsTable = {}
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
 		debounce = true
-		sendMessage('Lyrics were not found')
 		notifyerror('Lyrics were not found', 5)
 		task.wait(2)
 		debounce = false
@@ -97,8 +96,14 @@ task.spawn(function()
 	while task.wait(60) do
 		if not debounce then
 			sendMessage('I am a lyrics bot! Type ">lyrics SongName" and I will sing the song for you!')
+			task.wait(2)
+			if not debounce then
+				sendMessage('You can also do ">lyrics SongName by Author"')
+			end
 		end
 	end
 end)
 
 sendMessage('I am a lyrics bot! Type ">lyrics SongName" and I will sing the song for you!')
+task.wait(2)
+sendMessage('You can also do ">lyrics SongName by Author"')
