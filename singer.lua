@@ -52,7 +52,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 		return
 	end
 	local speaker = msgdata.FromSpeaker
-	local msg = msgdata.Message:gsub('>lyrics ', ''):gsub('"', ''):gsub(' by ','/')
+	local msg = string.lower(msgdata.Message):gsub('>lyrics ', ''):gsub('"', ''):gsub(' by ','/')
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	plr = game:GetService('Players')[speaker].Name
 	songName = string.gsub(msg, " ", ""):lower()
