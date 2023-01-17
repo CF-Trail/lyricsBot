@@ -65,6 +65,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local lyricsTable = {}
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
 		debounce = true
+		sendMessage('Lyrics were not found')
 		notifyerror('Lyrics were not found', 5)
 		task.wait(2)
 		debounce = false
