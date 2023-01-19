@@ -18,7 +18,7 @@ end
 local notif = loadstring(game:HttpGet("https://raw.githubusercontent.com/lobox920/Notification-Library/main/Library.lua"))()
 
 function notifynotify(message, duration)
-	notif:SendNotification("Success", message, duration)
+	notif:SendNotification("Info", message, duration)
 end
 
 function notifyerror(message, duration)
@@ -40,8 +40,9 @@ end
 
 
 game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('OnMessageDoneFiltering').OnClientEvent:Connect(function(msgdata)
-	if plr ~= nil and msgdata.FromSpeaker == plr then
+	if plr ~= nil and (msgdata.FromSpeaker == plr or msgdata.FromSpeaker == game:GetService('Players').LocalPlayer.Name) then
 		if string.lower(msgdata.Message) == '>stop' then
+			notifynotify('Stopped',3)
 			getgenv().stopped = true
 			debounce = true
 			task.wait(3)
@@ -79,6 +80,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
 	notifynotify('Singing ' .. songName, 5)
+	notifynotify('You can stop songs by saying >stop',5)
 	task.wait(3)
 	for i, line in ipairs(lyricsTable) do
 		if getgenv().stopped then
