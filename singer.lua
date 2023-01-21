@@ -5,6 +5,7 @@ if not getgenv().executedHi then
 else
 	return
 end
+local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
 
 local songName,plr
 local debounce = false
@@ -57,7 +58,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	plr = game:GetService('Players')[speaker].Name
 	songName = string.gsub(msg, " ", ""):lower()
-	local response = syn.request({
+	local response = httprequest({
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
 	})
