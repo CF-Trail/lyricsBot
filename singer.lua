@@ -89,7 +89,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 			break
 		end
 		sendMessage('🎙️ | ' .. line)
-		task.wait(6)
+		task.wait(5)
 	end
 	task.wait(3)
 	debounce = false
