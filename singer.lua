@@ -62,7 +62,6 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
 	})
-	print(response.Body)
 	local lyricsData = game.HttpService:JSONDecode(response.Body)
 	local lyricsTable = {}
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
