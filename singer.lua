@@ -55,7 +55,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
     if not suc then
 	sendMessage('Unexpected error, please retry')
     end
-	local lyricsData = game.HttpService:JSONDecode(response.Body)
+	local lyricsData = game:GetService('HttpService'):JSONDecode(response.Body)
 	local lyricsTable = {}
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
 		debounce = true
