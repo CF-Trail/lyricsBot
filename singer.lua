@@ -46,8 +46,9 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	plr = game:GetService('Players')[speaker].Name
 	songName = string.gsub(msg, " ", ""):lower()
+	local responce
     local suc,er = pcall(function()
-	local response = httprequest({
+	response = httprequest({
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
 	})
