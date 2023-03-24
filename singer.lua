@@ -28,18 +28,6 @@ end
 
 notifynotify('Loaded! | dotgg / szze#6220 / 502#8277',6)
 
-if isfile and writefile and typeof(isfile) == 'function' and typeof(writefile) == 'function' then
-	if not isfile('DiscordPromptedLyrics.txt') then
-		writefile('DiscordPromptedLyrics.txt', game:GetService('HttpService'):JSONEncode('hi'))
-		local Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Discord%20Inviter/Source.lua"))()
-		Module.Prompt({
-			invite = "https://discord.gg/fNeggqVMZs",
-			name = "CF Community",
-		})
-	end
-end
-
-
 game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('OnMessageDoneFiltering').OnClientEvent:Connect(function(msgdata)
 	if plr ~= nil and (msgdata.FromSpeaker == plr or msgdata.FromSpeaker == game:GetService('Players').LocalPlayer.Name) then
 		if string.lower(msgdata.Message) == '>stop' then
@@ -58,10 +46,15 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
 	plr = game:GetService('Players')[speaker].Name
 	songName = string.gsub(msg, " ", ""):lower()
+    local suc,er = pcall(function()
 	local response = httprequest({
 		Url = "https://lyrist.vercel.app/api/" .. songName,
 		Method = "GET",
 	})
+    end)
+    if not suc then
+	sendMessage('Unexpected error, please retry')
+    end
 	local lyricsData = game.HttpService:JSONDecode(response.Body)
 	local lyricsTable = {}
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
