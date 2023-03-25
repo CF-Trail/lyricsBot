@@ -55,6 +55,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
     end)
     if not suc then
 	sendMessage('Unexpected error, please retry')
+	return
     end
 	local lyricsData = game:GetService('HttpService'):JSONDecode(response.Body)
 	local lyricsTable = {}
