@@ -16,22 +16,10 @@ local function sendMessage(text)
 	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
 end
 
-local notif = loadstring(game:HttpGet("https://raw.githubusercontent.com/lobox920/Notification-Library/main/Library.lua"))()
-
-function notifynotify(message, duration)
-	notif:SendNotification("Info", message, duration)
-end
-
-function notifyerror(message, duration)
-	notif:SendNotification("Error", message, duration)
-end
-
-notifynotify('Loaded! | dotgg / szze#6220 / 502#8277',6)
 
 game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('OnMessageDoneFiltering').OnClientEvent:Connect(function(msgdata)
 	if plr ~= nil and (msgdata.FromSpeaker == plr or msgdata.FromSpeaker == game:GetService('Players').LocalPlayer.Name) then
 		if string.lower(msgdata.Message) == '>stop' then
-			notifynotify('Stopped',3)
 			getgenv().stopped = true
 			debounce = true
 			task.wait(3)
@@ -62,7 +50,6 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
 		debounce = true
 		sendMessage('Lyrics were not found')
-		notifyerror('Lyrics were not found', 5)
 		task.wait(2)
 		debounce = false
 		return
@@ -74,8 +61,6 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	sendMessage('Fetched lyrics')
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
-	notifynotify('Singing ' .. songName, 5)
-	notifynotify('You can stop songs by saying >stop',5)
 	task.wait(3)
 	for i, line in ipairs(lyricsTable) do
 		if getgenv().stopped then
