@@ -31,7 +31,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	    xf.Name = msgdata.FromSpeaker
 	    skipdata += 1
 	    if skipdata >= 3 then
-		sendMessage("Seems like people don't like this song. Votestopped.")
+		sendMessage("Seems like people don't like this song. Votestopped!")
 		votedata:ClearAllChildren()
 		skipdata = 0
 		getgenv().stopped = true
@@ -75,13 +75,14 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
 	task.wait(3)
+	sendMessage('You can always do >skip to do a vote for skipping the song [3 needed!]')
 	for i, line in ipairs(lyricsTable) do
 		if getgenv().stopped then
 			getgenv().stopped = false
 			break
 		end
 		sendMessage('🎙️ | ' .. line)
-		task.wait(4.5)
+		task.wait(4.8)
 	end
 	task.wait(3)
 	debounce = false
