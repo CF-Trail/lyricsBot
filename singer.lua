@@ -1,5 +1,6 @@
 repeat task.wait() until game:IsLoaded()
-
+local votedata = Instance.new('Folder')
+local skipdata = 0
 if not getgenv().executedHi then
 	getgenv().executedHi = true
 else
@@ -16,7 +17,6 @@ local function sendMessage(text)
 	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
 end
 
-
 game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('OnMessageDoneFiltering').OnClientEvent:Connect(function(msgdata)
 	if plr ~= nil and (msgdata.FromSpeaker == plr or msgdata.FromSpeaker == game:GetService('Players').LocalPlayer.Name) then
 		if string.lower(msgdata.Message) == '>stop' then
@@ -25,6 +25,17 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 			task.wait(3)
 			debounce = false
 		end
+	end
+	if msgdata.Message == '>skip' and not votedata:FindFirstChild(msgdata.FromSpeaker) then
+	    local xf = Instance.new('StringValue',votedata)
+	    xf.Name = msgdata.FromSpeaker
+	    skipdata += 1
+	    if skipdata >= 3 then
+		sendMessage("Seems like people don't like this song. Votestopped.")
+		votedata:ClearAllChildren()
+		skipdata = 0
+		getgenv().stopped = true
+	    end
 	end
 	if debounce or not string.match(msgdata.Message, '>lyrics ') or string.gsub(msgdata.Message, '>lyrics', '') == '' or game:GetService('Players')[msgdata.FromSpeaker] == game:GetService('Players').LocalPlayer then
 		return
@@ -70,7 +81,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 			break
 		end
 		sendMessage('🎙️ | ' .. line)
-		task.wait(5)
+		task.wait(4.5)
 	end
 	task.wait(3)
 	debounce = false
