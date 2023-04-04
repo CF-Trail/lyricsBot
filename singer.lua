@@ -68,9 +68,15 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 		debounce = false
 		return
 	end
-	for line in string.gmatch(lyricsData.lyrics, "[^\n]+") do
+	local suc, er = pcall(function() for line in string.gmatch(lyricsData.lyrics, "[^\n]+") do
 		table.insert(lyricsTable, line)
-	end
+	end end)
+      if not suc then
+	sendMessage('Unexpected error, please retry')
+	task.wait(3)
+	debounce = false
+	return
+      end
 	sendMessage('Fetched lyrics')
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
