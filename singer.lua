@@ -75,7 +75,8 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
 	task.wait(3)
-	sendMessage('You can always do >skip to do a vote for skipping the song [3 needed!]')
+	sendMessage('You can always do >skip to do a vote for skipping the song [3 votes needed!]')
+	task.wait(4)
 	for i, line in ipairs(lyricsTable) do
 		if getgenv().stopped then
 			getgenv().stopped = false
