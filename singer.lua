@@ -29,6 +29,7 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	if debounce or not string.match(msgdata.Message, '>lyrics ') or string.gsub(msgdata.Message, '>lyrics', '') == '' or game:GetService('Players')[msgdata.FromSpeaker] == game:GetService('Players').LocalPlayer then
 		return
 	end
+	debounce = true
 	local speaker = msgdata.FromSpeaker
 	local msg = string.lower(msgdata.Message):gsub('>lyrics ', ''):gsub('"', ''):gsub(' by ','/')
 	local speakerDisplay = game:GetService('Players')[speaker].DisplayName
@@ -43,6 +44,8 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
     end)
     if not suc then
 	sendMessage('Unexpected error, please retry')
+	task.wait(3)
+	debounce = false
 	return
     end
 	local lyricsData = game:GetService('HttpService'):JSONDecode(response.Body)
@@ -50,14 +53,13 @@ game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents:WaitForChild('O
 	if lyricsData.error and lyricsData.error == "Lyrics Not found" then
 		debounce = true
 		sendMessage('Lyrics were not found')
-		task.wait(2)
+		task.wait(3)
 		debounce = false
 		return
 	end
 	for line in string.gmatch(lyricsData.lyrics, "[^\n]+") do
 		table.insert(lyricsTable, line)
 	end
-	debounce = true
 	sendMessage('Fetched lyrics')
 	task.wait(2)
 	sendMessage('Playing song requested by ' .. speakerDisplay .. '. They can stop it by saying ">stop"')
