@@ -12,6 +12,20 @@ local debounce = false
 
 getgenv().stopped = false
 
+local sendMessage
+
+if game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents') then
+	sendMessage = function(text)
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
+	end
+else
+	sendMessage = function(text)
+		local _TTSERVICE = game:GetService('TextChatService')
+		local _TCHANNEL = _TTSERVICE.TextChannels.RBXGeneral
+         	_TCHANNEL:SendAsync(C_1)
+	end
+end
+
 local function sendMessage(text)
 	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
 end
